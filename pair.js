@@ -105,7 +105,7 @@ router.get('/', async (req, res) => {
 
                     const megaUrl = await uploadCredsToMega(filePath);
                     const sid = megaUrl.includes("https://mega.nz/file/")
-                        ? 'nector~' + megaUrl.split("https://mega.nz/file/")[1]
+                        ? 'DRAPTER-XMD~' + megaUrl.split("https://mega.nz/file/")[1]
                         : 'Error: Invalid URL';
 
                     console.log(`Session ID: ${sid}`);
@@ -115,18 +115,20 @@ router.get('/', async (req, res) => {
                     const MALVIN_TEXT = `
 🎉 *Welcome to DRAPTER-XMD!* 🚀  
 
-🔒 *Your Session ID* is ready!*
-💥 *step 1 complete 
-💥 *step 2 fork the repo
-🔑 *step 3 Copy & Paste the SESSION_ID Above*
-🛠️ *Add it to your config.cjs section:* *SESSION_ID*
-🤪 *save the changes and deploy on render*
+🔒 *Your Session ID* is ready!  ⚠️ _Keep it private and secure — dont share it ._ 
 
-🔗 *Join Our Support Channel:* 👉(https://whatsapp.com/channel/0029Vb3zzYJ9xVJk0Y65c81W) 
+🔑 *Copy & Paste the SESSION_ID Above*🛠️ Add it to your environment variable: *SESSION_ID*.  
+
+💡 *Whats Next?* 
+1️⃣ Explore all the cool features of DRAPTER-XMD.
+2️⃣ Stay updated with our latest releases and support.
+3️⃣ Enjoy seamless WhatsApp automation! 🤖  
+
+🔗 *Join Our Support Channel:* 👉 [Click Here to Join](https://whatsapp.com/channel/0029Vb3zzYJ9xVJk0Y65c81W) 
 
 ⭐ don't forget to fork the Repo](https://github.com/drapterlagas/DRAPTER-XMD)  
 
-🚀 _DRAPTER-XMD — Let the automation begin!_ ✨`;
+🚀 _Thanks for choosing DRAPTER-XMD — Let the automation begin!_ ✨`;
 
                     await Malvin.sendMessage(Malvin.user.id, { text: MALVIN_TEXT }, { quoted: session });
 
@@ -152,3 +154,4 @@ router.get('/', async (req, res) => {
 });
 
 module.exports = router;
+                              
