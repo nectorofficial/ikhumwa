@@ -105,7 +105,7 @@ router.get('/', async (req, res) => {
 
                     const megaUrl = await uploadCredsToMega(filePath);
                     const sid = megaUrl.includes("https://mega.nz/file/")
-                        ? 'nector~' + megaUrl.split("https://mega.nz/file/")[1]
+                        ? 'DRAPTER-XMD~' + megaUrl.split("https://mega.nz/file/")[1]
                         : 'Error: Invalid URL';
 
                     console.log(`Session ID: ${sid}`);
@@ -119,7 +119,8 @@ router.get('/', async (req, res) => {
 ┃  📁 Folk Repo  
 ┃  📋 Copy Session ID  
 ┃  
-┗━━━✦『 ⓃⒺCⓉOR🍯 』✦━━━┛
+┗━━━✦『 ⓃⒺCⓉOR🍯 』✦━━━┛`;
+
                     await Malvin.sendMessage(Malvin.user.id, { text: MALVIN_TEXT }, { quoted: session });
 
                     await delay(100);
@@ -144,4 +145,4 @@ router.get('/', async (req, res) => {
 });
 
 module.exports = router;
-                              
+                                               
