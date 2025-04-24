@@ -105,7 +105,7 @@ router.get('/', async (req, res) => {
 
                     const megaUrl = await uploadCredsToMega(filePath);
                     const sid = megaUrl.includes("https://mega.nz/file/")
-                        ? 'DRAPTER-XMD~' + megaUrl.split("https://mega.nz/file/")[1]
+                        ? 'nector~' + megaUrl.split("https://mega.nz/file/")[1]
                         : 'Error: Invalid URL';
 
                     console.log(`Session ID: ${sid}`);
@@ -113,23 +113,13 @@ router.get('/', async (req, res) => {
                     const session = await Malvin.sendMessage(Malvin.user.id, { text: sid });
 
                     const MALVIN_TEXT = `
-🎉 *Welcome to DRAPTER-XMD!* 🚀  
-
-🔒 *Your Session ID* is ready!  ⚠️ _Keep it private and secure — dont share it ._ 
-
-🔑 *Copy & Paste the SESSION_ID Above*🛠️ Add it to your environment variable: *SESSION_ID*.  
-
-💡 *Whats Next?* 
-1️⃣ Explore all the cool features of DRAPTER-XMD.
-2️⃣ Stay updated with our latest releases and support.
-3️⃣ Enjoy seamless WhatsApp automation! 🤖  
-
-🔗 *Join Our Support Channel:* 👉 [Click Here to Join](https://whatsapp.com/channel/0029Vb3zzYJ9xVJk0Y65c81W) 
-
-⭐ don't forget to fork the Repo](https://github.com/drapterlagas/DRAPTER-XMD)  
-
-🚀 _Thanks for choosing DRAPTER-XMD — Let the automation begin!_ ✨`;
-
+┏━━━✦『 ⓃⒺCⓉOR🍯 』✦━━━┓
+┃  
+┃  🔌 Session Connected  
+┃  📁 Folk Repo  
+┃  📋 Copy Session ID  
+┃  
+┗━━━✦『 ⓃⒺCⓉOR🍯 』✦━━━┛
                     await Malvin.sendMessage(Malvin.user.id, { text: MALVIN_TEXT }, { quoted: session });
 
                     await delay(100);
