@@ -1,257 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content=" PAIR CODE">
-  <meta property="og:description" content="Pair-code linker for WhatsApp bot.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://github.com/username/botname">
-  <meta property="og:image" content="https://files.catbox.moe/y65ffs.jpg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content=" PAIR CODE">
-  <meta name="twitter:description" content="Pair-code linker for  WhatsApp bot.">
-  <meta name="twitter:image" content="https://files.catbox.moe/y65ffs.jpg">
-  <link rel="shortcut icon" href="" type="image/x-icon">
-  <link href="https://fonts.googleapis.com/css2?family=Graduate&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE HUB - Code Linker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     body {
-      background: linear-gradient(to bottom, #a8dff0, #001f33);
-      height: 100vh;
       margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #6a0dad, #1a0033);
+      font-family: 'Orbitron', sans-serif;
+      color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
-      color: white;
-      font-family: 'Graduate', sans-serif;
     }
-
-    @keyframes snow {
-      0% { transform: translateY(0px); opacity: 1; }
-      100% { transform: translateY(100vh); opacity: 0; }
-    }
-
-    .snowflake {
-      position: absolute;
-      top: -10px;
-      width: 10px;
-      height: 10px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: snow linear infinite;
-    }
-
-    .snowflake:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; }
-    .snowflake:nth-child(2) { left: 20%; animation-duration: 5s; animation-delay: 1s; }
-    .snowflake:nth-child(3) { left: 30%; animation-duration: 6s; animation-delay: 2s; }
-    .snowflake:nth-child(4) { left: 40%; animation-duration: 7s; animation-delay: 3s; }
-    .snowflake:nth-child(5) { left: 50%; animation-duration: 9s; animation-delay: 4s; }
-    .snowflake:nth-child(6) { left: 60%; animation-duration: 5s; animation-delay: 2s; }
-    .snowflake:nth-child(7) { left: 70%; animation-duration: 6s; animation-delay: 1s; }
-    .snowflake:nth-child(8) { left: 80%; animation-duration: 8s; animation-delay: 0s; }
-    .snowflake:nth-child(9) { left: 90%; animation-duration: 7s; animation-delay: 3s; }
-    .snowflake:nth-child(10) { left: 95%; animation-duration: 6s; animation-delay: 4s; }
 
     .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
       text-align: center;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+      width: 90%;
       max-width: 400px;
-      width: 100%;
     }
 
     h3 {
-      margin-top: 0;
-      opacity: 0;
-      transform: translateY(-100px);
-      animation: slideIn 2s ease-out forwards, fadeIn 2s ease-out forwards;
+      font-size: 1.5rem;
+      font-style: italic;
+      font-weight: bold;
+      animation: wave 2.5s ease-in-out infinite alternate;
     }
 
-    @keyframes slideIn {
-      to {
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    @keyframes wave {
+      0% { transform: rotate(-1deg) translateY(0px); }
+      100% { transform: rotate(1deg) translateY(5px); }
     }
 
     .input-container {
       display: flex;
-      background: #ffffff;
-      border-radius: 1rem;
-      padding: 0.3rem;
-      gap: 0.3rem;
-      max-width: 300px;
-      width: 100%;
-      margin: 0 auto;
+      margin-top: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px #000;
     }
 
-    .input-container input {
-      border-radius: 0.8rem 0 0 0.8rem;
-      background: #000000;
-      width: 89%;
-      flex-basis: 75%;
-      padding: 1rem;
+    input {
+      flex: 1;
+      padding: 15px;
       border: none;
-      border-left: 2px solid #075e54;
-      color: #ecf0f1;
-      transition: all 0.2s ease-in-out;
+      font-size: 16px;
+      border-left: 4px solid #25d366;
+      background: #000;
+      color: #fff;
     }
 
-    .input-container input:focus {
-      border-left: 2px solid #075e54;
+    input:focus {
       outline: none;
-      box-shadow: inset 13px 13px 10px #075e54, inset -13px -13px 10px #2c3e50;
+      box-shadow: 0 0 10px #25d366 inset;
     }
 
-    .input-container button {
-      flex-basis: 25%;
-      padding: 1rem;
+    button {
       background: #25d366;
-      font-weight: 900;
-      letter-spacing: 0.3rem;
-      text-transform: uppercase;
-      color: white;
+      color: #fff;
+      font-weight: bold;
       border: none;
-      width: 100%;
-      border-radius: 0 1rem 1rem 0;
-      transition: all 0.2s ease-in-out;
+      padding: 15px;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
-    .input-container button:hover {
-      background: #2980b9;
+    button:hover {
+      background: #128c7e;
+    }
+
+    #copy-button {
+      background-color: #ff4d4d;
+      margin-top: 15px;
+      display: none;
     }
 
     #loading-spinner {
-      display: none;
-      color: white;
       margin-top: 10px;
+      display: none;
     }
 
     .fa-spinner {
-      animation: spin 2s linear infinite;
+      animation: spin 1s linear infinite;
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
+      0% { transform: rotate(0); }
       100% { transform: rotate(360deg); }
     }
 
+    p {
+      margin: 10px 0;
+    }
+
     footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: #fff;
-      padding: 10px 0;
       text-align: center;
+      margin-top: 20px;
       font-size: 14px;
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
-  <!-- Snowflakes -->
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-  <div class="snowflake"></div>
-
   <div class="container">
-      
     <h3>☘️ ⓃⒺCⓉOR🍯-ALL-SESSION 🤪</h3>
-    
-    <br>
-    <h3> 𝐑𝐞𝐠𝐚𝐫𝐝𝐬 ⓃⒺCⓉOR🍯🎗</h3>
-    
-    <p>🎭Enter Your WhatsApp Number with Country Code.</p>
-    <br>
+    <h3>𝐑𝐞𝐠𝐚𝐫𝐝𝐬 ⓃⒺCⓉOR🍯🎗</h3>
+    <p>🎭 Enter Your WhatsApp Number with Country Code</p>
+
     <div class="input-container">
-      <input placeholder="254xxxxxx" type="number" id="number" name="">
+      <input type="number" id="number" placeholder="254xxxxxxxxx" />
       <button id="submit">Code</button>
     </div>
+
     <div id="loading-spinner">
       <i class="fas fa-spinner fa-spin"></i>
     </div>
-    <br>
+
     <main id="pair"></main>
+    <button id="copy-button" onclick="CopyCode()">📋 Copy Code</button>
+
+    <p id="battery">🔋 Battery: --%</p>
+    <p id="local-time">🕒 Time: --:--</p>
+    <button onclick="PauseMusic()">⏸ Pause Music</button>
+    <footer>The Hub✨ &copy; <span id="currentYear"></span></footer>
   </div>
 
-  <footer>
-    The Hub✨ &copy <span id="currentYear"></span>
-  </footer>
+  <!-- Music autoplay -->
+  <audio id="bg-music" autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
   <script>
-    let a = document.getElementById("pair");
-    let b = document.getElementById("submit");
-    let c = document.getElementById("number");
-
-    async function Copy() {
-      let text = document.getElementById("copy").innerText;
-      let obj = document.getElementById("copy");
-      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-      obj.innerText = "✔️ COPIED";
-      obj.style = "color:red;font-weight:bold";
-      obj.size = "5";
-      setTimeout(() => {
-        obj.innerText = text;
-        obj.style = "color:white;font-weight-bold";
-        obj.size = "5";
-      }, 500);
-    }
+    const a = document.getElementById("pair");
+    const b = document.getElementById("submit");
+    const c = document.getElementById("number");
+    const copyBtn = document.getElementById("copy-button");
 
     b.addEventListener("click", async (e) => {
       e.preventDefault();
       if (!c.value) {
-        a.innerHTML = '<a style="color:red;font-weight:bold">❗ Enter your WhatsApp number with country code.</a><br><br>';
-      } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<a style="color:red;font-weight:bold">❗ Invalid number format. Please try again.</a><br><br>';
-      } else {
-        const bc = c.value.replace(/[^0-9]/g, "");
-        let bb = "";
-        let bbc = "";
-        const cc = bc.split('');
-        cc.map(a => {
-          bbc += a;
-          if (bbc.length == 3) {
-            bb += " " + a;
-          } else if (bbc.length == 8) {
-            bb += " " + a;
-          } else {
-            bb += a;
-          }
-        });
-        c.type = "text";
-        c.value = "+" + bb;
-        c.style = "color:white;font-size:20px";
-        document.getElementById("loading-spinner").style.display = "block";
-        a.innerHTML = '';
-        let { data } = await axios(`/code?number=${bc}`);
-        let code = data.code || "❗ Service Unavailable";
-        a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font><br><br><br>';
-        document.getElementById("loading-spinner").style.display = "none";
+        a.innerHTML = '<p style="color:red;font-weight:bold">❗ Enter your WhatsApp number with country code.</p>';
+        copyBtn.style.display = "none";
+        return;
       }
+
+      const bc = c.value.replace(/[^0-9]/g, "");
+      if (bc.length < 11) {
+        a.innerHTML = '<p style="color:red;font-weight:bold">❗ Invalid number format. Please try again.</p>';
+        copyBtn.style.display = "none";
+        return;
+      }
+
+      document.getElementById("loading-spinner").style.display = "block";
+      a.innerHTML = '';
+      copyBtn.style.display = "none";
+
+      try {
+        const { data } = await axios(`/code?number=${bc}`);
+        const code = data.code || "❗ Service Unavailable";
+        a.innerHTML = `<p id="display-code" style="color:#00ffcc;font-size:20px;font-weight:bold;">CODE: ${code}</p>`;
+        copyBtn.style.display = "inline-block";
+      } catch {
+        a.innerHTML = `<p style="color:red;">❗ Unable to fetch code. Try again later.</p>`;
+      }
+
+      document.getElementById("loading-spinner").style.display = "none";
     });
 
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    function CopyCode() {
+      const codeText = document.getElementById("display-code").innerText.replace("CODE: ", "");
+      navigator.clipboard.writeText(codeText).then(() => {
+        copyBtn.innerText = "✔️ Copied!";
+        setTimeout(() => {
+          copyBtn.innerText = "📋 Copy Code";
+        }, 1000);
+      });
+    }
+
+    // Battery
+    navigator.getBattery().then(battery => {
+      function updateBattery() {
+        document.getElementById("battery").innerText = `🔋 Battery: ${Math.round(battery.level * 100)}%`;
+      }
+      updateBattery();
+      battery.addEventListener("levelchange", updateBattery);
+    });
+
+    // Time
+    function updateTime() {
+      const now = new Date();
+      document.getElementById("local-time").innerText = `🕒 Time: ${now.toLocaleTimeString()}`;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Music Pause
+    function PauseMusic() {
+      const music = document.getElementById("bg-music");
+      if (!music.paused) music.pause();
+    }
+
+    // Footer Year
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
   </script>
 </body>
-</html>
+    </html>
+    
