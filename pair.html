@@ -6,7 +6,7 @@
   <title>THE HUB - Code Linker</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body, html {
@@ -17,61 +17,38 @@
       overflow: hidden;
     }
 
-    video#bg-video {
+    video#bg-video, img#fallback-image {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       object-fit: cover;
       z-index: -2;
     }
-
-    #fallback-image {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -3;
-    }
+    img#fallback-image { z-index: -3; }
 
     .glass-container {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: space-between;
       padding: 40px 20px;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0,0,0,0.4);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
-      border-radius: 0;
-      text-align: center;
-      overflow-y: auto;
-      z-index: 1;
+      overflow-y: auto; text-align: center;
     }
 
     h3.wave-text {
-      font-size: 1.7rem;
-      font-style: italic;
-      font-weight: bold;
+      font-size: 1.7rem; font-style: italic; font-weight: bold;
       animation: wave 2.5s ease-in-out infinite alternate;
-      margin-top: 40px;
-      color: #fff;
+      margin-top: 40px; color: #fff;
     }
 
-    p, input, button, footer {
-      color: #fff;
-    }
+    p, input, button, footer { color: #fff; }
 
     @keyframes wave {
-      0% { transform: rotate(-1deg) translateY(0px); }
+      0% { transform: rotate(-1deg) translateY(0); }
       100% { transform: rotate(1deg) translateY(5px); }
     }
 
@@ -83,8 +60,7 @@
       padding: 15px;
       cursor: pointer;
       border-radius: 10px;
-      width: 90%;
-      max-width: 300px;
+      width: 90%; max-width: 300px;
       margin: 10px 0;
       font-size: 15px;
       transition: background 0.3s;
@@ -92,8 +68,7 @@
     button:hover { background: #128c7e; }
 
     input {
-      width: 90%;
-      max-width: 300px;
+      width: 90%; max-width: 300px;
       padding: 15px;
       border: none;
       margin-top: 10px;
@@ -110,19 +85,16 @@
 
     #qr-box img {
       margin-top: 10px;
-      width: 150px;
-      height: 150px;
+      width: 150px; height: 150px;
       border-radius: 15px;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
     }
 
     #toast {
       position: fixed;
-      bottom: 30px;
-      left: 50%;
+      bottom: 30px; left: 50%;
       transform: translateX(-50%);
-      background: #25d366;
-      color: white;
+      background: #25d366; color: white;
       padding: 10px 20px;
       border-radius: 30px;
       font-weight: bold;
@@ -131,10 +103,13 @@
       box-shadow: 0 0 10px #000;
     }
 
-    footer {
-      font-size: 14px;
-      margin-bottom: 20px;
-      opacity: 0.9;
+    footer { font-size: 14px; margin-bottom: 20px; opacity: 0.9; }
+
+    #audio-control {
+      position: fixed; top: 20px; right: 20px;
+      background: rgba(0,0,0,0.5); color: white;
+      padding: 10px; border-radius: 50%; cursor: pointer;
+      z-index: 10000;
     }
   </style>
 </head>
@@ -143,6 +118,8 @@
   <video id="bg-video" autoplay loop muted>
     <source src="https://files.catbox.moe/v44c0i.mp4" type="video/mp4">
   </video>
+  <audio id="bg-music" src="https://files.catbox.moe/l5n20t.mp3" loop></audio>
+  <div id="audio-control"><i class="fas fa-volume-up"></i></div>
 
   <div id="toast"></div>
 
@@ -157,7 +134,7 @@
     <button onclick="startExperience()">🚀 Click to Continue</button>
   </div>
 
-  <!-- PHASE 1 -->
+  <!-- MAIN PHASE -->
   <div class="glass-container hidden fade-out" id="phase1">
     <h3 class="wave-text">☘️ Welcome to THE HUB</h3>
     <button onclick="startPhase('pair')">🔐 Get Pairing Code</button>
@@ -168,11 +145,11 @@
     <footer>&copy; <span id="currentYear"></span> The Hub</footer>
   </div>
 
-  <!-- PHASE 2 -->
+  <!-- PAIR / QR PHASE -->
   <div class="glass-container hidden fade-out" id="phase2">
     <h3 class="wave-text" id="phase2-title">🔐 Pairing Code</h3>
     <input type="number" id="number" placeholder="254xxxxxxxxx" />
-    <button onclick="submitCode()" id="submit-button">Submit</button>
+    <button onclick="submitCode()" id="submit-button">Get Code</button>
     <div id="pair"></div>
     <div id="qr-box"></div>
     <button onclick="CopyCode()" id="copy-button" class="hidden">📋 Copy Code</button>
@@ -181,27 +158,31 @@
 
   <script>
     let selectedMode = "pair";
+    const audio = document.getElementById("bg-music");
+    const audioBtn = document.getElementById("audio-control");
+
+    audioBtn.onclick = () => {
+      if (audio.muted || audio.paused) {
+        audio.play(); audio.muted = false;
+        audioBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+      } else {
+        audio.muted = true;
+        audioBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+      }
+    };
 
     function startExperience() {
+      audio.play();
       document.getElementById("intro").classList.add("hidden");
-      document.getElementById("phase1").classList.remove("hidden");
-      document.getElementById("phase1").classList.add("fade-in");
-
-      const video = document.getElementById("bg-video");
-      if (video) {
-        video.style.display = "block";
-        video.play().catch(() => {
-          console.warn("Autoplay blocked, video will start after user interaction.");
-        });
-      }
+      const p1 = document.getElementById("phase1");
+      p1.classList.remove("hidden"); p1.classList.add("fade-in");
     }
 
     function startPhase(mode) {
       selectedMode = mode;
       const p1 = document.getElementById("phase1");
       const p2 = document.getElementById("phase2");
-      p1.classList.add("fade-out");
-      p1.classList.remove("fade-in");
+      p1.classList.add("fade-out"); p1.classList.remove("fade-in");
       setTimeout(() => {
         p1.classList.add("hidden");
         p2.classList.remove("hidden");
@@ -217,24 +198,29 @@
     function goBack() {
       const p1 = document.getElementById("phase1");
       const p2 = document.getElementById("phase2");
-      p2.classList.remove("fade-in");
-      p2.classList.add("fade-out");
+      p2.classList.remove("fade-in"); p2.classList.add("fade-out");
       setTimeout(() => {
         p2.classList.add("hidden");
-        p1.classList.remove("hidden");
-        p1.classList.add("fade-in");
+        p1.classList.remove("hidden"); p1.classList.add("fade-in");
       }, 500);
     }
 
     async function submitCode() {
-      const number = document.getElementById("number").value.trim();
-      if (!number || number.length < 11) return showToast("⚠️ Enter a valid WhatsApp number.");
+      const btn = document.getElementById("submit-button");
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+      btn.disabled = true;
+      const input = document.getElementById("number");
+      let number = input.value.replace(/[^0-9]/g, "");
+      if (!number || number.length < 11) {
+        showToast("⚠️ Enter a valid WhatsApp number.");
+        resetButton();
+        return;
+      }
 
       if (selectedMode === 'pair') {
         try {
-          const res = await axios.get(`/code?number=${number}`);
-          const data = res.data;
-          const code = data.code || "Unavailable";
+          const res = await axios(`/code?number=${number}`);
+          const code = res.data.code || "Unavailable";
           document.getElementById("pair").innerHTML = `<p id='display-code'>CODE: ${code}</p>`;
           document.getElementById("copy-button").classList.remove("hidden");
           showToast("✅ Pairing Code Generated");
@@ -247,6 +233,13 @@
         document.getElementById("qr-box").innerHTML = `<img src='https://api.qrserver.com/v1/create-qr-code/?data=${link}&size=150x150' alt='QR Code'/>`;
         showToast("✅ QR Code Generated");
       }
+      resetButton();
+    }
+
+    function resetButton() {
+      const btn = document.getElementById("submit-button");
+      btn.innerHTML = selectedMode==='pair'?'Get Code':'Generate QR';
+      btn.disabled = false;
     }
 
     function CopyCode() {
@@ -279,5 +272,4 @@
     document.getElementById("currentYear").textContent = new Date().getFullYear();
   </script>
 </body>
-  </html>
-      
+</html>
