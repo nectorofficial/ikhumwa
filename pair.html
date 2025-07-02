@@ -24,7 +24,6 @@
       height: 100%;
       object-fit: cover;
       z-index: -2;
-      display: none;
     }
 
     #fallback-image {
@@ -37,31 +36,24 @@
       z-index: -3;
     }
 
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: -1;
-    }
-
-    .container {
+    .glass-container {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      padding: 40px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.06);
+      justify-content: space-between;
+      padding: 40px 20px;
+      background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border-radius: 0;
       text-align: center;
       overflow-y: auto;
+      z-index: 1;
     }
 
     h3.wave-text {
@@ -69,7 +61,12 @@
       font-style: italic;
       font-weight: bold;
       animation: wave 2.5s ease-in-out infinite alternate;
-      margin-bottom: 10px;
+      margin-top: 40px;
+      color: #fff;
+    }
+
+    p, input, button, footer {
+      color: #fff;
     }
 
     @keyframes wave {
@@ -132,6 +129,12 @@
       z-index: 9999;
       box-shadow: 0 0 10px #000;
     }
+
+    footer {
+      font-size: 14px;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
   </style>
 </head>
 <body>
@@ -139,30 +142,33 @@
   <video id="bg-video" autoplay loop muted>
     <source src="https://files.catbox.moe/v44c0i.mp4" type="video/mp4">
   </video>
-  <div class="overlay"></div>
 
   <div id="toast"></div>
 
   <!-- INTRO PHASE -->
-  <div class="container" id="intro">
+  <div class="glass-container" id="intro">
     <h3 class="wave-text">👋 Welcome to ⓃⒺCⓉOR🍯 Session</h3>
     <p>✨ Get ready to explore!</p>
+    <div>
+      <p id="battery">🔋 Battery: --%</p>
+      <p id="local-time">🕒 Time: --:--</p>
+    </div>
     <button onclick="startExperience()">🚀 Click to Continue</button>
   </div>
 
   <!-- PHASE 1 -->
-  <div class="container hidden fade-out" id="phase1">
+  <div class="glass-container hidden fade-out" id="phase1">
     <h3 class="wave-text">☘️ Welcome to THE HUB</h3>
-    <p>🎞 Background video is playing...</p>
     <button onclick="startPhase('pair')">🔐 Get Pairing Code</button>
     <button onclick="startPhase('qr')">📷 Generate QR Code</button>
     <button onclick="window.open('https://whatsapp.com/channel/0029Vb3zzYJ9xVJk0Y65c81W','_blank')">📢 Join Our WhatsApp Channel</button>
     <button onclick="window.open('https://chat.whatsapp.com/IT55IJ9kOPi5Fi9T5VNC5V','_blank')">💬 Join Our WhatsApp Group</button>
     <button onclick="window.open('https://wa.me/254725474072','_blank')">📩 Contact Admin</button>
+    <footer>&copy; <span id="currentYear"></span> The Hub</footer>
   </div>
 
   <!-- PHASE 2 -->
-  <div class="container hidden fade-out" id="phase2">
+  <div class="glass-container hidden fade-out" id="phase2">
     <h3 class="wave-text" id="phase2-title">🔐 Pairing Code</h3>
     <input type="number" id="number" placeholder="254xxxxxxxxx" />
     <button onclick="submitCode()" id="submit-button">Submit</button>
@@ -253,6 +259,23 @@
       toast.style.display = "block";
       setTimeout(() => toast.style.display = "none", 3000);
     }
+
+    navigator.getBattery && navigator.getBattery().then(battery => {
+      function updateBattery() {
+        document.getElementById("battery").innerText = `🔋 Battery: ${Math.round(battery.level * 100)}%`;
+      }
+      updateBattery();
+      battery.addEventListener("levelchange", updateBattery);
+    });
+
+    function updateTime() {
+      const now = new Date();
+      document.getElementById("local-time").innerText = `🕒 Time: ${now.toLocaleTimeString()}`;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
