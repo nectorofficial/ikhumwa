@@ -142,6 +142,7 @@
   <video id="bg-video" autoplay loop muted>
     <source src="https://files.catbox.moe/v44c0i.mp4" type="video/mp4">
   </video>
+  <audio id="bg-music" src="https://files.catbox.moe/l5n20t.mp3" loop></audio>
 
   <div id="toast"></div>
 
@@ -171,7 +172,7 @@
   <div class="glass-container hidden fade-out" id="phase2">
     <h3 class="wave-text" id="phase2-title">🔐 Pairing Code</h3>
     <input type="number" id="number" placeholder="254xxxxxxxxx" />
-    <button onclick="submitCode()" id="submit-button">Submit</button>
+    <button onclick="submitCode()" id="submit-button">Get Code</button>
     <div id="pair"></div>
     <div id="qr-box"></div>
     <button onclick="CopyCode()" id="copy-button" class="hidden">📋 Copy Code</button>
@@ -193,6 +194,10 @@
           console.warn("Autoplay blocked, video will start after user interaction.");
         });
       }
+
+      const music = document.getElementById("bg-music");
+      music.volume = 1;
+      music.play().catch(err => console.warn("Music autoplay failed:", err));
     }
 
     function startPhase(mode) {
@@ -227,7 +232,11 @@
 
     async function submitCode() {
       const number = document.getElementById("number").value.trim();
+      const button = document.getElementById("submit-button");
       if (!number || number.length < 11) return showToast("⚠️ Enter a valid WhatsApp number.");
+
+      button.disabled = true;
+      button.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Generating Code...`;
 
       if (selectedMode === 'pair') {
         try {
@@ -246,6 +255,9 @@
         document.getElementById("qr-box").innerHTML = `<img src='https://api.qrserver.com/v1/create-qr-code/?data=${link}&size=150x150' alt='QR Code'/>`;
         showToast("✅ QR Code Generated");
       }
+
+      button.disabled = false;
+      button.innerText = selectedMode === 'pair' ? 'Get Code' : 'Generate QR';
     }
 
     function CopyCode() {
