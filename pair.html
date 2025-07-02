@@ -6,6 +6,7 @@
   <title>THE HUB - Code Linker</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body, html {
@@ -142,7 +143,6 @@
   <video id="bg-video" autoplay loop muted>
     <source src="https://files.catbox.moe/v44c0i.mp4" type="video/mp4">
   </video>
-  <audio id="bg-music" src="https://files.catbox.moe/l5n20t.mp3" loop></audio>
 
   <div id="toast"></div>
 
@@ -172,7 +172,7 @@
   <div class="glass-container hidden fade-out" id="phase2">
     <h3 class="wave-text" id="phase2-title">🔐 Pairing Code</h3>
     <input type="number" id="number" placeholder="254xxxxxxxxx" />
-    <button onclick="submitCode()" id="submit-button">Get Code</button>
+    <button onclick="submitCode()" id="submit-button">Submit</button>
     <div id="pair"></div>
     <div id="qr-box"></div>
     <button onclick="CopyCode()" id="copy-button" class="hidden">📋 Copy Code</button>
@@ -194,10 +194,6 @@
           console.warn("Autoplay blocked, video will start after user interaction.");
         });
       }
-
-      const music = document.getElementById("bg-music");
-      music.volume = 1;
-      music.play().catch(err => console.warn("Music autoplay failed:", err));
     }
 
     function startPhase(mode) {
@@ -232,16 +228,12 @@
 
     async function submitCode() {
       const number = document.getElementById("number").value.trim();
-      const button = document.getElementById("submit-button");
       if (!number || number.length < 11) return showToast("⚠️ Enter a valid WhatsApp number.");
-
-      button.disabled = true;
-      button.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Generating Code...`;
 
       if (selectedMode === 'pair') {
         try {
-          const res = await fetch(`/code?number=${number}`);
-          const data = await res.json();
+          const res = await axios.get(`/code?number=${number}`);
+          const data = res.data;
           const code = data.code || "Unavailable";
           document.getElementById("pair").innerHTML = `<p id='display-code'>CODE: ${code}</p>`;
           document.getElementById("copy-button").classList.remove("hidden");
@@ -255,9 +247,6 @@
         document.getElementById("qr-box").innerHTML = `<img src='https://api.qrserver.com/v1/create-qr-code/?data=${link}&size=150x150' alt='QR Code'/>`;
         showToast("✅ QR Code Generated");
       }
-
-      button.disabled = false;
-      button.innerText = selectedMode === 'pair' ? 'Get Code' : 'Generate QR';
     }
 
     function CopyCode() {
@@ -290,4 +279,5 @@
     document.getElementById("currentYear").textContent = new Date().getFullYear();
   </script>
 </body>
-</html>
+  </html>
+      
