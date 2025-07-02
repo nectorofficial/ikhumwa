@@ -11,12 +11,20 @@
       margin: 0;
       padding: 0;
       height: 100vh;
-      background: linear-gradient(135deg, #6a0dad, #1a0033);
+      background: linear-gradient(135deg, #00d4ff, #6a0dad, #ff5e62, #009688);
+      background-size: 400% 400%;
+      animation: gradientShift 10s ease infinite;
       font-family: 'Orbitron', sans-serif;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .container {
@@ -136,7 +144,7 @@
   </div>
 
   <!-- Music autoplay -->
-  <audio id="bg-music" autoplay loop>
+  <audio id="bg-music" loop>
     <source src="https://files.catbox.moe/l5n20t.mp3" type="audio/mpeg" />
     Your browser does not support the audio element.
   </audio>
@@ -150,6 +158,10 @@
 
     b.addEventListener("click", async (e) => {
       e.preventDefault();
+
+      // Try to play music after user clicks
+      document.getElementById("bg-music").play().catch(() => {});
+
       if (!c.value) {
         a.innerHTML = '<p style="color:red;font-weight:bold">❗ Enter your WhatsApp number with country code.</p>';
         copyBtn.style.display = "none";
@@ -216,5 +228,5 @@
     document.getElementById("currentYear").textContent = new Date().getFullYear();
   </script>
 </body>
-    </html>
-    
+      </html>
+  
