@@ -7,42 +7,69 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #00d4ff, #6a0dad, #ff5e62, #009688);
-      background-size: 400% 400%;
-      animation: gradientShift 10s ease infinite;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html {
+      height: 100%;
+      width: 100%;
       font-family: 'Orbitron', sans-serif;
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      overflow: hidden;
     }
 
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    video#bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      display: none;
+    }
+
+    #fallback-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -3;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: -1;
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      padding: 30px;
-      border-radius: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(15px);
       text-align: center;
-      box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
-      width: 90%;
-      max-width: 400px;
+      overflow-y: auto;
     }
 
-    h3 {
-      font-size: 1.5rem;
+    h3.wave-text {
+      font-size: 1.7rem;
       font-style: italic;
       font-weight: bold;
       animation: wave 2.5s ease-in-out infinite alternate;
+      margin-bottom: 10px;
     }
 
     @keyframes wave {
@@ -50,183 +77,182 @@
       100% { transform: rotate(1deg) translateY(5px); }
     }
 
-    .input-container {
-      display: flex;
-      margin-top: 20px;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 0 10px #000;
-    }
-
-    input {
-      flex: 1;
-      padding: 15px;
-      border: none;
-      font-size: 16px;
-      border-left: 4px solid #25d366;
-      background: #000;
-      color: #fff;
-    }
-
-    input:focus {
-      outline: none;
-      box-shadow: 0 0 10px #25d366 inset;
-    }
-
     button {
       background: #25d366;
-      color: #fff;
+      color: white;
       font-weight: bold;
       border: none;
       padding: 15px;
       cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background: #128c7e;
-    }
-
-    #copy-button {
-      background-color: #ff4d4d;
-      margin-top: 15px;
-      display: none;
-    }
-
-    #loading-spinner {
-      margin-top: 10px;
-      display: none;
-    }
-
-    .fa-spinner {
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0); }
-      100% { transform: rotate(360deg); }
-    }
-
-    p {
+      border-radius: 10px;
+      width: 90%;
+      max-width: 300px;
       margin: 10px 0;
+      font-size: 15px;
+      transition: background 0.3s;
+    }
+    button:hover { background: #128c7e; }
+
+    input {
+      width: 90%;
+      max-width: 300px;
+      padding: 15px;
+      border: none;
+      margin-top: 10px;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #000;
+      color: #fff;
+      border-left: 4px solid #25d366;
     }
 
-    footer {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 14px;
-      opacity: 0.8;
+    .hidden { display: none; }
+    .fade-out { opacity: 0; transform: translateY(30px); }
+    .fade-in { opacity: 1; transform: translateY(0); }
+
+    #qr-box img {
+      margin-top: 10px;
+      width: 150px;
+      height: 150px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #25d366;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      display: none;
+      z-index: 9999;
+      box-shadow: 0 0 10px #000;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h3>☘️ ⓃⒺCⓉOR🍯-ALL-SESSION 🤪</h3>
-    <h3>𝐑𝐞𝐠𝐚𝐫𝐝𝐬 ⓃⒺCⓉOR🍯🎗</h3>
-    <p>🎭 Enter Your WhatsApp Number with Country Code</p>
+  <img id="fallback-image" src="https://files.catbox.moe/2u0fqo.jpg" alt="Fallback Image">
+  <video id="bg-video" autoplay loop muted>
+    <source src="https://files.catbox.moe/v44c0i.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
 
-    <div class="input-container">
-      <input type="number" id="number" placeholder="254xxxxxxxxx" />
-      <button id="submit">Code</button>
-    </div>
+  <div id="toast"></div>
 
-    <div id="loading-spinner">
-      <i class="fas fa-spinner fa-spin"></i>
-    </div>
-
-    <main id="pair"></main>
-    <button id="copy-button" onclick="CopyCode()">📋 Copy Code</button>
-
-    <p id="battery">🔋 Battery: --%</p>
-    <p id="local-time">🕒 Time: --:--</p>
-    <button onclick="PauseMusic()">⏸ Pause Music</button>
-    <footer>The Hub✨ &copy; <span id="currentYear"></span></footer>
+  <!-- INTRO PHASE -->
+  <div class="container" id="intro">
+    <h3 class="wave-text">👋 Welcome to ⓃⒺCⓉOR🍯 Session</h3>
+    <p>✨ Get ready to explore!</p>
+    <button onclick="startExperience()">🚀 Click to Continue</button>
   </div>
 
-  <!-- Music autoplay -->
-  <audio id="bg-music" loop>
-    <source src="https://files.catbox.moe/l5n20t.mp3" type="audio/mpeg" />
-    Your browser does not support the audio element.
-  </audio>
+  <!-- PHASE 1 -->
+  <div class="container hidden fade-out" id="phase1">
+    <h3 class="wave-text">☘️ Welcome to THE HUB</h3>
+    <p>🎞 Background video is playing...</p>
+    <button onclick="startPhase('pair')">🔐 Get Pairing Code</button>
+    <button onclick="startPhase('qr')">📷 Generate QR Code</button>
+    <button onclick="window.open('https://whatsapp.com/channel/0029Vb3zzYJ9xVJk0Y65c81W','_blank')">📢 Join Our WhatsApp Channel</button>
+    <button onclick="window.open('https://chat.whatsapp.com/IT55IJ9kOPi5Fi9T5VNC5V','_blank')">💬 Join Our WhatsApp Group</button>
+    <button onclick="window.open('https://wa.me/254725474072','_blank')">📩 Contact Admin</button>
+  </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <!-- PHASE 2 -->
+  <div class="container hidden fade-out" id="phase2">
+    <h3 class="wave-text" id="phase2-title">🔐 Pairing Code</h3>
+    <input type="number" id="number" placeholder="254xxxxxxxxx" />
+    <button onclick="submitCode()" id="submit-button">Submit</button>
+    <div id="pair"></div>
+    <div id="qr-box"></div>
+    <button onclick="CopyCode()" id="copy-button" class="hidden">📋 Copy Code</button>
+    <button onclick="goBack()">🔙 Back</button>
+  </div>
+
   <script>
-    const a = document.getElementById("pair");
-    const b = document.getElementById("submit");
-    const c = document.getElementById("number");
-    const copyBtn = document.getElementById("copy-button");
+    let selectedMode = "pair";
 
-    b.addEventListener("click", async (e) => {
-      e.preventDefault();
+    function startExperience() {
+      document.getElementById("intro").classList.add("hidden");
+      document.getElementById("phase1").classList.remove("hidden");
+      document.getElementById("phase1").classList.add("fade-in");
 
-      // Try to play music after user clicks
-      document.getElementById("bg-music").play().catch(() => {});
-
-      if (!c.value) {
-        a.innerHTML = '<p style="color:red;font-weight:bold">❗ Enter your WhatsApp number with country code.</p>';
-        copyBtn.style.display = "none";
-        return;
+      const video = document.getElementById("bg-video");
+      if (video) {
+        video.style.display = "block";
+        video.play().catch(() => {
+          console.warn("Autoplay blocked, video will start after user interaction.");
+        });
       }
+    }
 
-      const bc = c.value.replace(/[^0-9]/g, "");
-      if (bc.length < 11) {
-        a.innerHTML = '<p style="color:red;font-weight:bold">❗ Invalid number format. Please try again.</p>';
-        copyBtn.style.display = "none";
-        return;
+    function startPhase(mode) {
+      selectedMode = mode;
+      const p1 = document.getElementById("phase1");
+      const p2 = document.getElementById("phase2");
+      p1.classList.add("fade-out");
+      p1.classList.remove("fade-in");
+      setTimeout(() => {
+        p1.classList.add("hidden");
+        p2.classList.remove("hidden");
+        p2.classList.add("fade-in");
+        document.getElementById("phase2-title").innerText = mode === 'pair' ? '🔐 Pairing Code' : '📷 QR Code';
+        document.getElementById("submit-button").innerText = mode === 'pair' ? 'Get Code' : 'Generate QR';
+        document.getElementById("pair").innerHTML = "";
+        document.getElementById("qr-box").innerHTML = "";
+        document.getElementById("copy-button").classList.add("hidden");
+      }, 500);
+    }
+
+    function goBack() {
+      const p1 = document.getElementById("phase1");
+      const p2 = document.getElementById("phase2");
+      p2.classList.remove("fade-in");
+      p2.classList.add("fade-out");
+      setTimeout(() => {
+        p2.classList.add("hidden");
+        p1.classList.remove("hidden");
+        p1.classList.add("fade-in");
+      }, 500);
+    }
+
+    async function submitCode() {
+      const number = document.getElementById("number").value.trim();
+      if (!number || number.length < 11) return showToast("⚠️ Enter a valid WhatsApp number.");
+
+      if (selectedMode === 'pair') {
+        try {
+          const res = await fetch(`/code?number=${number}`);
+          const data = await res.json();
+          const code = data.code || "Unavailable";
+          document.getElementById("pair").innerHTML = `<p id='display-code'>CODE: ${code}</p>`;
+          document.getElementById("copy-button").classList.remove("hidden");
+          showToast("✅ Pairing Code Generated");
+        } catch {
+          document.getElementById("pair").innerHTML = `<p style='color:red;'>❗ Error getting code.</p>`;
+          showToast("❌ Failed to generate code");
+        }
+      } else {
+        const link = `https://wa.me/${number}`;
+        document.getElementById("qr-box").innerHTML = `<img src='https://api.qrserver.com/v1/create-qr-code/?data=${link}&size=150x150' alt='QR Code'/>`;
+        showToast("✅ QR Code Generated");
       }
-
-      document.getElementById("loading-spinner").style.display = "block";
-      a.innerHTML = '';
-      copyBtn.style.display = "none";
-
-      try {
-        const { data } = await axios(`/code?number=${bc}`);
-        const code = data.code || "❗ Service Unavailable";
-        a.innerHTML = `<p id="display-code" style="color:#00ffcc;font-size:20px;font-weight:bold;">CODE: ${code}</p>`;
-        copyBtn.style.display = "inline-block";
-      } catch {
-        a.innerHTML = `<p style="color:red;">❗ Unable to fetch code. Try again later.</p>`;
-      }
-
-      document.getElementById("loading-spinner").style.display = "none";
-    });
+    }
 
     function CopyCode() {
       const codeText = document.getElementById("display-code").innerText.replace("CODE: ", "");
-      navigator.clipboard.writeText(codeText).then(() => {
-        copyBtn.innerText = "✔️ Copied!";
-        setTimeout(() => {
-          copyBtn.innerText = "📋 Copy Code";
-        }, 1000);
-      });
+      navigator.clipboard.writeText(codeText).then(() => showToast("✔️ Code copied!"));
     }
 
-    // Battery
-    navigator.getBattery().then(battery => {
-      function updateBattery() {
-        document.getElementById("battery").innerText = `🔋 Battery: ${Math.round(battery.level * 100)}%`;
-      }
-      updateBattery();
-      battery.addEventListener("levelchange", updateBattery);
-    });
-
-    // Time
-    function updateTime() {
-      const now = new Date();
-      document.getElementById("local-time").innerText = `🕒 Time: ${now.toLocaleTimeString()}`;
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.style.display = "block";
+      setTimeout(() => toast.style.display = "none", 3000);
     }
-    setInterval(updateTime, 1000);
-    updateTime();
-
-    // Music Pause
-    function PauseMusic() {
-      const music = document.getElementById("bg-music");
-      if (!music.paused) music.pause();
-    }
-
-    // Footer Year
-    document.getElementById("currentYear").textContent = new Date().getFullYear();
   </script>
 </body>
-      </html>
-  
+</html>
