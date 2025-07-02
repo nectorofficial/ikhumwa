@@ -115,7 +115,7 @@
 </head>
 <body>
   <img id="fallback-image" src="https://files.catbox.moe/2u0fqo.jpg" alt="Fallback Image">
-  <video id="bg-video" autoplay loop muted>
+  <video id="bg-video" autoplay muted loop playsinline>
     <source src="https://files.catbox.moe/v44c0i.mp4" type="video/mp4">
   </video>
   <audio id="bg-music" src="https://files.catbox.moe/l5n20t.mp3" loop></audio>
@@ -123,7 +123,6 @@
 
   <div id="toast"></div>
 
-  <!-- INTRO PHASE -->
   <div class="glass-container" id="intro">
     <h3 class="wave-text">👋 Welcome to ⓃⒺCⓉOR🍯 Session</h3>
     <p>✨ Get ready to explore!</p>
@@ -134,7 +133,6 @@
     <button onclick="startExperience()">🚀 Click to Continue</button>
   </div>
 
-  <!-- MAIN PHASE -->
   <div class="glass-container hidden fade-out" id="phase1">
     <h3 class="wave-text">☘️ Welcome to THE HUB</h3>
     <button onclick="startPhase('pair')">🔐 Get Pairing Code</button>
@@ -145,7 +143,6 @@
     <footer>&copy; <span id="currentYear"></span> The Hub</footer>
   </div>
 
-  <!-- PAIR / QR PHASE -->
   <div class="glass-container hidden fade-out" id="phase2">
     <h3 class="wave-text" id="phase2-title">🔐 Pairing Code</h3>
     <input type="number" id="number" placeholder="254xxxxxxxxx" />
@@ -163,7 +160,8 @@
 
     audioBtn.onclick = () => {
       if (audio.muted || audio.paused) {
-        audio.play(); audio.muted = false;
+        audio.muted = false;
+        audio.play().catch(() => showToast("🎵 Tap to enable audio"));
         audioBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
       } else {
         audio.muted = true;
@@ -172,7 +170,12 @@
     };
 
     function startExperience() {
-      audio.play();
+      audio.muted = false;
+      audio.play().then(() => {
+        console.log("Audio started");
+      }).catch(() => {
+        showToast("🎵 Tap to enable audio");
+      });
       document.getElementById("intro").classList.add("hidden");
       const p1 = document.getElementById("phase1");
       p1.classList.remove("hidden"); p1.classList.add("fade-in");
